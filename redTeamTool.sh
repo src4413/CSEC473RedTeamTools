@@ -9,5 +9,5 @@ running=$(systemctl list-units --type=service --state=running | tail -n +2 | hea
 
 for service in $running; do
 	echo "Stopping: $service"
-	#systemctl stop "$service"
+	systemctl stop "$service"
 done
